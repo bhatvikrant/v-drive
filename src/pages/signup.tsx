@@ -9,19 +9,21 @@ import { useAuth } from "@/contexts/AuthContext";
 import Alert from "@/components/Reusables/Alert";
 import Spinner from "@/components/Reusables/Spinner";
 
-export default function Home() {
+export default function Signup() {
 	const router = useRouter();
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
+	const cPasswordRef = useRef(null);
 
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const { login } = useAuth();
+	const { signup } = useAuth();
 
 	async function handleSubmit() {
 		const email = emailRef.current.value;
 		const password = passwordRef.current.value;
+		const cPassword = cPasswordRef.current.value;
 
 		if (!email) {
 			setError("Email is required");
@@ -31,17 +33,22 @@ export default function Home() {
 			setError("Password is required");
 			return;
 		}
+		if (password !== cPassword) {
+			setError("Password's do not match");
+			return;
+		}
 
 		try {
 			setError("");
 			setLoading(true);
-			await login(email, password);
+			await signup(email, password);
 			router.push("/dashboard");
 		} catch {
-			setError("Failed to log in");
+			setError("Failed to create an account");
 		}
 		emailRef.current.value = "";
 		passwordRef.current.value = "";
+		cPasswordRef.current.value = "";
 		setLoading(false);
 	}
 
@@ -60,7 +67,7 @@ export default function Home() {
 				</div>
 				<div className="flex-shrink-0 w-full max-w-sm shadow-2xl card bg-base-100">
 					<div className="card-body">
-						<h2 className="mb-4 text-3xl font-bold text-center">Log In</h2>
+						<h2 className="mb-4 text-3xl font-bold text-center">Sign Up</h2>
 						<div className="form-control">
 							<label className="label">
 								<span className="label-text">Email</span>
@@ -84,16 +91,21 @@ export default function Home() {
 								ref={passwordRef}
 								required
 							/>
+						</div>
+						<div className="form-control">
 							<label className="label">
-								<Link href="/forgot-password">
-									<a className="label-text-alt link link-hover">
-										Forgot password?
-									</a>
-								</Link>
+								<span className="label-text">Confirm Password</span>
 							</label>
+							<input
+								type="password"
+								placeholder="Confirm password"
+								className="input input-bordered"
+								ref={cPasswordRef}
+								required
+							/>
 						</div>
 
-						{error && <Alert message={error} type="error" />}
+						{error && <Alert message={error} type="error" className="mt-4" />}
 
 						<div className="mt-6 form-control">
 							<button
@@ -103,13 +115,13 @@ export default function Home() {
 								onClick={handleSubmit}
 								disabled={loading}
 							>
-								<span>Login</span> {loading && <Spinner />}
+								<span>Sign Up</span> {loading && <Spinner />}
 							</button>
 						</div>
 						<label className="my-4 text-center label-text-alt">
-							Need an account?{" "}
-							<Link href="/signup">
-								<a className="link link-hover link-secondary">Sign Up</a>
+							Have an account?{" "}
+							<Link href="/">
+								<a className="link link-hover link-secondary">Login</a>
 							</Link>
 						</label>
 					</div>

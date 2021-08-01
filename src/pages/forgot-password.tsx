@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 // CONTEXTS
@@ -9,39 +8,33 @@ import { useAuth } from "@/contexts/AuthContext";
 import Alert from "@/components/Reusables/Alert";
 import Spinner from "@/components/Reusables/Spinner";
 
-export default function Home() {
-	const router = useRouter();
+export default function ForgotPassword() {
 	const emailRef = useRef(null);
-	const passwordRef = useRef(null);
 
 	const [error, setError] = useState("");
+	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const { login } = useAuth();
+	const { resetPassword } = useAuth();
 
 	async function handleSubmit() {
 		const email = emailRef.current.value;
-		const password = passwordRef.current.value;
 
 		if (!email) {
 			setError("Email is required");
 			return;
 		}
-		if (!password) {
-			setError("Password is required");
-			return;
-		}
 
 		try {
+			setMessage("");
 			setError("");
 			setLoading(true);
-			await login(email, password);
-			router.push("/dashboard");
+			await resetPassword(email);
+			setMessage("Check your inbox for further instructions");
 		} catch {
-			setError("Failed to log in");
+			setError("Failed to reset password");
 		}
 		emailRef.current.value = "";
-		passwordRef.current.value = "";
 		setLoading(false);
 	}
 
@@ -60,7 +53,9 @@ export default function Home() {
 				</div>
 				<div className="flex-shrink-0 w-full max-w-sm shadow-2xl card bg-base-100">
 					<div className="card-body">
-						<h2 className="mb-4 text-3xl font-bold text-center">Log In</h2>
+						<h2 className="mb-4 text-3xl font-bold text-center">
+							Password Reset
+						</h2>
 						<div className="form-control">
 							<label className="label">
 								<span className="label-text">Email</span>
@@ -73,27 +68,9 @@ export default function Home() {
 								required
 							/>
 						</div>
-						<div className="form-control">
-							<label className="label">
-								<span className="label-text">Password</span>
-							</label>
-							<input
-								type="password"
-								placeholder="password"
-								className="input input-bordered"
-								ref={passwordRef}
-								required
-							/>
-							<label className="label">
-								<Link href="/forgot-password">
-									<a className="label-text-alt link link-hover">
-										Forgot password?
-									</a>
-								</Link>
-							</label>
-						</div>
 
-						{error && <Alert message={error} type="error" />}
+						{error && <Alert message={error} type="error" className="mt-4" />}
+						{message && <Alert message={message} className="mt-4" />}
 
 						<div className="mt-6 form-control">
 							<button
@@ -103,9 +80,18 @@ export default function Home() {
 								onClick={handleSubmit}
 								disabled={loading}
 							>
-								<span>Login</span> {loading && <Spinner />}
+								<span>Reset Password</span> {loading && <Spinner />}
 							</button>
 						</div>
+
+						<br />
+
+						<label className="my-4 text-center label-text-alt">
+							Have an account?{" "}
+							<Link href="/">
+								<a className="link link-hover link-secondary">Login</a>
+							</Link>
+						</label>
 						<label className="my-4 text-center label-text-alt">
 							Need an account?{" "}
 							<Link href="/signup">
