@@ -29,4 +29,16 @@ if (!firebase.apps.length) {
     console.log('Firebase was successfully init.')
 }
 
+const firestore = firebase.firestore()
+
+export const db = {
+    folders: firestore.collection("folders"),
+    files: firestore.collection("files"),
+    formatDoc: doc => ({
+        id: doc.id,
+        ...doc.data(),
+    }),
+    getCurrentTimeStamp: firebase.firestore.FieldValue.serverTimestamp
+}
+
 export default firebase
