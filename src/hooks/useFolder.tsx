@@ -9,7 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export interface IFolder {
 	name: string;
 	id: string | null;
-	path: Omit<IFolder, 'path'>[];
+	path: Omit<IFolder, "path">[];
 }
 
 interface IState {
@@ -75,8 +75,8 @@ const useFolder = (
 
 	useEffect(() => {
 		/*
-		*	To set folder 
-		*/
+		 *	To set folder
+		 */
 		if (folderId == null) {
 			// if it is the ROOT folder
 			return dispatch({
@@ -98,6 +98,7 @@ const useFolder = (
 				});
 			})
 			.catch(err => {
+				console.error("err:", err);
 				dispatch({
 					type: ACTIONS.UPDATE_FOLDER,
 					payload: { folder: ROOT_FOLDER },
@@ -107,20 +108,27 @@ const useFolder = (
 
 	useEffect(() => {
 		/*
-		*	To set childFolders
-		*/
-		const cleanup = db.folders.where("parentId", "==", folderId).where("userId", "==", currentUser.uid)
-			.orderBy("createdAt")
-			.onSnapshot(snapshot => { // onSnapshot runs automatically everytime whenever a folder is created / changed / edited
-				dispatch({
-					type: ACTIONS.SET_CHILD_FOLDERS, payload: {
-						childFolders: snapshot.docs.map(doc => db.formatDoc(doc)),
-					}
-				})
-			})
+		 *	To set childFolders
+		 */
 
-		return () => cleanup();
-	}, [folderId, currentUser])
+		if (currentUser) {
+			const cleanup = db.folders
+				.where("parentId", "==", folderId)
+				.where("userId", "==", currentUser.uid)
+				.orderBy("createdAt")
+				.onSnapshot(snapshot => {
+					// onSnapshot runs automatically everytime whenever a folder is created / changed / edited
+					dispatch({
+						type: ACTIONS.SET_CHILD_FOLDERS,
+						payload: {
+							childFolders: snapshot.docs.map(doc => db.formatDoc(doc)),
+						},
+					});
+				});
+
+			return () => cleanup();
+		}
+	}, [folderId, currentUser]);
 
 	return state;
 };
