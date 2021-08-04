@@ -3,6 +3,9 @@ import { useEffect, useReducer } from "react";
 // FIREBASE
 import { db } from "@/lib/firebase";
 
+// CONTEXTS
+import { useAuth } from "@/contexts/AuthContext";
+
 export interface IFolder {
 	name: string;
 	id: string | null;
@@ -12,13 +15,14 @@ export interface IFolder {
 interface IState {
 	folderId: string | null;
 	folder: IFolder;
-	childFolders: string[];
+	childFolders: IFolder[];
 	childFiles: string[];
 }
 
 const ACTIONS = {
 	SELECT_FOLDER: "SELECT_FOLDER",
 	UPDATE_FOLDER: "UPDATE_FOLDER",
+	SET_CHILD_FOLDERS: "SET_CHILD_FOLDERS",
 };
 
 const ROOT_FOLDER: IFolder = { name: "Root", id: null, path: [] };
@@ -39,6 +43,11 @@ function reducer(state: IState, action: { type: string; payload: any }) {
 				...state,
 				folder: payload.folder,
 			};
+		case ACTIONS.SET_CHILD_FOLDERS:
+			return {
+				...state,
+				childFolders: payload.childFolders,
+			};
 
 		default:
 			return state;
@@ -58,11 +67,16 @@ const useFolder = (
 
 	const [state, dispatch] = useReducer(reducer, initialState);
 
+	const { currentUser } = useAuth();
+
 	useEffect(() => {
 		dispatch({ type: ACTIONS.SELECT_FOLDER, payload: { folderId, folder } });
 	}, [folderId, folder]);
 
 	useEffect(() => {
+		/*
+		*	To set folder 
+		*/
 		if (folderId == null) {
 			// if it is the ROOT folder
 			return dispatch({
@@ -71,7 +85,7 @@ const useFolder = (
 			});
 		}
 
-		// Otherwise folders fetch from the database
+		// Otherwise fetch folders from the database
 		db.folders
 			.doc(folderId)
 			.get()
@@ -90,6 +104,23 @@ const useFolder = (
 				});
 			});
 	}, [folderId]);
+
+	useEffect(() => {
+		/*
+		*	To set childFolders
+		*/
+		const cleanup = db.folders.where("parentId", "==", folderId).where("userId", "==", currentUser.uid)
+			.orderBy("createdAt")
+			.onSnapshot(snapshot => { // onSnapshot runs automatically everytime whenever a folder is created / changed / edited
+				dispatch({
+					type: ACTIONS.SET_CHILD_FOLDERS, payload: {
+						childFolders: snapshot.docs.map(doc => db.formatDoc(doc)),
+					}
+				})
+			})
+
+		return () => cleanup();
+	}, [folderId, currentUser])
 
 	return state;
 };
