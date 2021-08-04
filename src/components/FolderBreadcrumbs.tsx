@@ -14,7 +14,6 @@ const FolderBreadcrumbs: React.FC<Props> = (props) => {
     if (currentFolder) {
         path = [...path, currentFolder.path].flat()
     }
-    // console.log('path:', path)
 
     return (
         <div className="text-sm breadcrumbs">

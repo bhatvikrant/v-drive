@@ -32,12 +32,11 @@ const AddFolderBtn: React.FC<Props> = props => {
 	function createFolder() {
 		if (currentFolder == null) return;
 
-		console.log('currentFolde YOOOr:', currentFolder)
-
-		const path: any = currentFolder.path.length === 0 ? [] : [{ ...currentFolder.path }]
+		const path: any =
+			currentFolder.path.length === 0 ? [] : [{ ...currentFolder.path }];
 
 		if (currentFolder !== ROOT_FOLDER) {
-			path.push({ name: currentFolder.name, id: currentFolder.id })
+			path.push({ name: currentFolder.name, id: currentFolder.id });
 		}
 
 		db.folders.add({
