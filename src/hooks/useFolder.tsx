@@ -9,7 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export interface IFolder {
 	name: string;
 	id: string | null;
-	path: string[];
+	path: Omit<IFolder, 'path'>[];
 }
 
 interface IState {
@@ -25,7 +25,7 @@ const ACTIONS = {
 	SET_CHILD_FOLDERS: "SET_CHILD_FOLDERS",
 };
 
-const ROOT_FOLDER: IFolder = { name: "Root", id: null, path: [] };
+export const ROOT_FOLDER: IFolder = { name: "Root", id: null, path: [] };
 
 function reducer(state: IState, action: { type: string; payload: any }) {
 	const { type, payload } = action;

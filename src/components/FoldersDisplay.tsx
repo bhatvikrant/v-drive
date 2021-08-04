@@ -1,6 +1,7 @@
 // COMPONENTS
 import AddFolderBtn from "@/components/AddFolderBtn";
 import Folder from "@/components/Folder";
+import FolderBreadcrumbs from './FolderBreadcrumbs';
 
 // CUSTOM HOOKS
 import useFolder from "src/hooks/useFolder";
@@ -21,20 +22,22 @@ const FoldersDisplay: React.FC<Props> = (props) => {
     console.log("folderState:", folderState);
 
     return <div className="min-h-screen p-4 bg-base-200">
-        <div className="flex space-x-2">
-            <div data-tip="Upload file" className="tooltip">
-                <button
-                    className={`space-x-2 btn btn-outline btn-accent`}
-                // onClick={handleSubmit}
-                >
-                    <AddDocumentIcon />
-                </button>
+        <div className='flex items-center justify-between'>
+
+            <FolderBreadcrumbs currentFolder={folderState.folder} />
+
+            <div className="flex space-x-2">
+                <div data-tip="Upload file" className="tooltip">
+                    <button
+                        className={`space-x-2 btn btn-outline btn-accent`}
+                    // onClick={handleSubmit}
+                    >
+                        <AddDocumentIcon />
+                    </button>
+                </div>
+
+                <AddFolderBtn currentFolder={folderState.folder} />
             </div>
-
-            <AddFolderBtn currentFolder={folderState.folder} />
-
-
-
         </div>
         <div className='py-4'>
             {folderState.childFolders.length > 0 && (

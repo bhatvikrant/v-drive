@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
 	const router = useRouter();
 
 	const { currentUser, logout } = useAuth();
-	console.log("currentUser:", currentUser);
+	// console.log("currentUser:", currentUser);
 
 	const handleLogout = async () => {
 		console.log("user logged out:");

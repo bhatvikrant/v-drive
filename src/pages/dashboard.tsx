@@ -23,7 +23,7 @@ const Dashboard: React.FC<Props> = props => {
 	}, [currentUser, router]);
 
 	return (
-		<FoldersDisplay folderId="VKETDsxOCYeaCRqJN2rP" />
+		<FoldersDisplay folderId={null} />
 	);
 };
 

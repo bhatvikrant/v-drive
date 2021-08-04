@@ -10,7 +10,7 @@ import CreateFolderIcon from "../../public/svgs/create-folder.svg";
 import { db } from "@/lib/firebase";
 
 // TS INTERFACES
-import { IFolder } from "src/hooks/useFolder";
+import { IFolder, ROOT_FOLDER } from "src/hooks/useFolder";
 
 interface Props {
 	currentFolder: IFolder;
@@ -32,11 +32,19 @@ const AddFolderBtn: React.FC<Props> = props => {
 	function createFolder() {
 		if (currentFolder == null) return;
 
+		console.log('currentFolde YOOOr:', currentFolder)
+
+		const path: any = currentFolder.path.length === 0 ? [] : [{ ...currentFolder.path }]
+
+		if (currentFolder !== ROOT_FOLDER) {
+			path.push({ name: currentFolder.name, id: currentFolder.id })
+		}
+
 		db.folders.add({
 			name: folderName,
 			parentId: currentFolder.id,
 			userId: currentUser.uid,
-			// path,
+			path,
 			createdAt: db.getCurrentTimeStamp(),
 		});
 
