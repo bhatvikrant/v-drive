@@ -82,7 +82,7 @@ const AddFolderBtn: React.FC<Props> = props => {
 							type="text"
 							placeholder="Folder name"
 							className={`input ${error ? 'input-error' : 'input-bordered'}`}
-							value={folderName}
+							value={folderName || ''}
 							onChange={e => setFolderName(e.target.value)}
 						/>
 						{error && <p className='mt-1 text-xs text-red-500'>{error}</p>}

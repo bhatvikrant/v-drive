@@ -1,5 +1,4 @@
 import { ChangeEvent, useState } from "react";
-import ReactDOM from "react-dom";
 
 // FIREBASE
 import firebase, { db } from "@/lib/firebase";
@@ -123,29 +122,10 @@ const AddFileBtn: React.FC<Props> = props => {
 		<>
 			<div data-tip="Upload file" className="tooltip">
 				<label className={`space-x-2 btn btn-outline btn-accent`}>
-					<input type="file" onChange={handleUpload} hidden accept="image/*" />
+					<input type="file" onChange={handleUpload} hidden accept="image/*" value='' />
 					<AddDocumentIcon />
 				</label>
 			</div>
-
-			{/* {uploadingFiles.length > 0 &&
-				ReactDOM.createPortal(
-					<div className="absolute bottom-0 right-0 max-w-xs">
-						{uploadingFiles.map(file => ( */}
-			{/* // STYLE THIS as toast */}
-			{/* <div key={file.id}> */}
-			{/* // truncate this file name */}
-			{/* {file.name} */}
-
-			{/* animate if !file.error */}
-			{/* show in red if file.error */}
-			{/* % = file.error ? 100 : file.prgress*100 */}
-			{/* label = file.error ? 'error' :  Math.round(file.progress)* 100 % */}
-			{/* </div>
-						))}
-					</div>,
-					document.body,
-				)} */}
 
 			{uploadingFiles.length > 0 &&
 				(<div className={`alert alert-info fixed bottom-6 md:right-10 right-3`}>

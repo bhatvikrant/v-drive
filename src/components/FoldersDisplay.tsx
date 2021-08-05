@@ -40,7 +40,7 @@ const FoldersDisplay: React.FC<Props> = props => {
 				)}
 
 				{folderState.childFolders.length > 0 &&
-					folderState.childFiles.length > 0 && <hr />}
+					folderState.childFiles.length > 0 && <hr className='my-8' />}
 
 				{folderState.childFiles.length > 0 && (
 					<div className="flex gap-4">
