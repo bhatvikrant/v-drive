@@ -123,7 +123,7 @@ const AddFileBtn: React.FC<Props> = props => {
 		<>
 			<div data-tip="Upload file" className="tooltip">
 				<label className={`space-x-2 btn btn-outline btn-accent`}>
-					<input type="file" onChange={handleUpload} hidden />
+					<input type="file" onChange={handleUpload} hidden accept="image/*" />
 					<AddDocumentIcon />
 				</label>
 			</div>
