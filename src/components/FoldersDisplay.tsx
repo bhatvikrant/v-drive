@@ -30,7 +30,7 @@ const FoldersDisplay: React.FC<Props> = props => {
 			</div>
 			<div className="py-4">
 				{folderState.childFolders.length > 0 && (
-					<div className="flex gap-4">
+					<div className="flex flex-wrap gap-4">
 						{folderState.childFolders.map(childFolder => (
 							<div key={childFolder.id}>
 								<Folder folder={childFolder} />
