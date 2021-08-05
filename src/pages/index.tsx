@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -11,13 +11,21 @@ import Spinner from "@/components/Reusables/Spinner";
 
 export default function Home() {
 	const router = useRouter();
+
+	const { login, currentUser } = useAuth();
+
+	useLayoutEffect(() => {
+		if (currentUser) {
+			router.push("/dashboard");
+		}
+	}, [currentUser, router]);
+
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
 
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const { login } = useAuth();
 
 	async function handleSubmit() {
 		const email = emailRef.current.value;
@@ -97,9 +105,8 @@ export default function Home() {
 
 						<div className="mt-6 form-control">
 							<button
-								className={`space-x-2 btn btn-primary ${
-									loading ? "opacity-50" : ""
-								}`}
+								className={`space-x-2 btn btn-primary ${loading ? "opacity-50" : ""
+									}`}
 								onClick={handleSubmit}
 								disabled={loading}
 							>

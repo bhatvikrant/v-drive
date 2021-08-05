@@ -1,13 +1,12 @@
 // COMPONENTS
-import AddFolderBtn from "@/components/AddFolderBtn";
-import Folder from "@/components/Folder";
+import AddFolderBtn from "./AddFolderBtn";
+import Folder from "./Folder";
 import FolderBreadcrumbs from "./FolderBreadcrumbs";
+import AddFileBtn from "./AddFileBtn";
+import File from "./File";
 
 // CUSTOM HOOKS
 import useFolder from "src/hooks/useFolder";
-
-// SVGs
-import AddDocumentIcon from "../../public/svgs/add-document.svg";
 
 // TS INTERFACES
 interface Props {
@@ -20,20 +19,12 @@ const FoldersDisplay: React.FC<Props> = props => {
 	const folderState = useFolder(folderId);
 
 	return (
-		<div className="min-h-screen p-4 bg-base-200">
-			<div className="flex items-center justify-between">
+		<div className="min-h-screen p-8 bg-base-200">
+			<div className="flex items-center justify-between pr-6">
 				<FolderBreadcrumbs currentFolder={folderState.folder} />
 
-				<div className="flex space-x-2">
-					<div data-tip="Upload file" className="tooltip">
-						<button
-							className={`space-x-2 btn btn-outline btn-accent`}
-							// onClick={handleSubmit}
-						>
-							<AddDocumentIcon />
-						</button>
-					</div>
-
+				<div className="flex gap-2">
+					<AddFileBtn currentFolder={folderState.folder} />
 					<AddFolderBtn currentFolder={folderState.folder} />
 				</div>
 			</div>
@@ -43,6 +34,19 @@ const FoldersDisplay: React.FC<Props> = props => {
 						{folderState.childFolders.map(childFolder => (
 							<div key={childFolder.id}>
 								<Folder folder={childFolder} />
+							</div>
+						))}
+					</div>
+				)}
+
+				{folderState.childFolders.length > 0 &&
+					folderState.childFiles.length > 0 && <hr />}
+
+				{folderState.childFiles.length > 0 && (
+					<div className="flex gap-4">
+						{folderState.childFiles.map(childFile => (
+							<div key={childFile.id}>
+								<File file={childFile} />
 							</div>
 						))}
 					</div>

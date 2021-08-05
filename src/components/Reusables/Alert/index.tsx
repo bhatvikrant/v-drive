@@ -3,7 +3,7 @@ import { alertIconsMap } from "./data";
 // TS INTERFACES
 interface Props {
 	type?: "success" | "error" | "warning" | "info";
-	message: string;
+	message: string | JSX.Element;
 	className?: string;
 }
 

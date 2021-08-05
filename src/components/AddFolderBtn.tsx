@@ -21,16 +21,22 @@ const AddFolderBtn: React.FC<Props> = props => {
 
 	const { currentUser } = useAuth();
 
-	const [folderName, setFolderName] = useState("");
+	const [folderName, setFolderName] = useState<string | null>(null);
+	const [error, setError] = useState<string | null>(null);
 
 	function closeCreateFolderModal() {
+		setError(null)
 		const checkboxEl = document.getElementById("create-folder-modal");
-
 		(checkboxEl as HTMLInputElement).checked = false;
 	}
 
 	function createFolder() {
 		if (currentFolder == null) return;
+		if (!folderName) {
+			setError('Folder name cannot be empty')
+			return
+		};
+		setError(null)
 
 		const path: any =
 			currentFolder.path.length === 0 ? [] : [{ ...currentFolder.path }];
@@ -52,13 +58,15 @@ const AddFolderBtn: React.FC<Props> = props => {
 	}
 
 	return (
-		<div data-tip="Create folder" className="tooltip">
-			<label
-				htmlFor={"create-folder-modal"}
-				className="btn btn-outline btn-accent modal-button"
-			>
-				<CreateFolderIcon />
-			</label>
+		<>
+			<div data-tip="Create folder" className="tooltip">
+				<label
+					htmlFor={"create-folder-modal"}
+					className="btn btn-outline btn-accent modal-button"
+				>
+					<CreateFolderIcon />
+				</label>
+			</div>
 			<input
 				type="checkbox"
 				id={"create-folder-modal"}
@@ -73,10 +81,11 @@ const AddFolderBtn: React.FC<Props> = props => {
 						<input
 							type="text"
 							placeholder="Folder name"
-							className="input input-bordered"
+							className={`input ${error ? 'input-error' : 'input-bordered'}`}
 							value={folderName}
 							onChange={e => setFolderName(e.target.value)}
 						/>
+						{error && <p className='mt-1 text-xs text-red-500'>{error}</p>}
 					</div>
 
 					<div className="modal-action">
@@ -95,7 +104,7 @@ const AddFolderBtn: React.FC<Props> = props => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
