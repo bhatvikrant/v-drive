@@ -13,7 +13,7 @@ interface Props {
 	folderId: string;
 }
 
-const FoldersDisplay: React.FC<Props> = props => {
+const FilesAndFoldersDisplay: React.FC<Props> = props => {
 	const { folderId } = props;
 
 	const folderState = useFolder(folderId);
@@ -56,4 +56,4 @@ const FoldersDisplay: React.FC<Props> = props => {
 	);
 };
 
-export default FoldersDisplay;
+export default FilesAndFoldersDisplay;

@@ -2,7 +2,7 @@ import { useLayoutEffect } from "react";
 import { useRouter } from "next/router";
 
 // COMPONENTS
-import FoldersDisplay from "@/components/FoldersDisplay";
+import FilesAndFoldersDisplay from "@/components/FilesAndFoldersDisplay";
 
 // CONTEXT
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,7 +23,7 @@ const DynamicFolder: React.FC<Props> = props => {
     }, [currentUser, router]);
 
     return (
-        <FoldersDisplay folderId={router.query.folderId as string} />
+        <FilesAndFoldersDisplay folderId={router.query.folderId as string} />
     );
 };
 
