@@ -14,27 +14,28 @@ const File: React.FC<Props> = props => {
 	console.log("file:", file);
 
 	return (
-		<div className="flex flex-row items-center justify-center border rounded w-72 sm:w-64">
+		<div className="p-2 overflow-hidden border rounded">
 			<Image
 				src={file.url}
 				alt={file.name}
-				height="150"
-				width="250"
+				height="200"
+				width="200"
 				className="object-cover rounded-md"
 			/>
 
 			<a
-				className="p-2 text-gray-500 truncate w-72 sm:w-64 link link-hover"
+				className="link link-hover"
 				href={file.url}
 				target="_blank"
 				rel="noreferrer"
 			>
-				{file.name}
+				<p className='w-[200px] truncate text-gray-500 text-center mt-2'>
+					{file.name}
+				</p>
 			</a>
-
-			<a href={file.url} download className="p-2 cursor-pointer">
+			{/* <a href={file.url} download className="p-2 cursor-pointer">
 				<DownloadIcon />
-			</a>
+			</a> */}
 		</div>
 	);
 };

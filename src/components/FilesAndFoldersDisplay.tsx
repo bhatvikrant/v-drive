@@ -46,7 +46,7 @@ const FilesAndFoldersDisplay: React.FC<Props> = props => {
 					folderState.childFiles.length > 0 && <hr className='my-8' />}
 
 				{folderState.childFiles.length > 0 && (
-					<div className="flex flex-wrap items-center justify-center gap-4">
+					<div className="flex flex-wrap justify-center gap-4 mt-8 sm:justify-start">
 						{folderState.childFiles.map(childFile => (
 							<div key={childFile.id}>
 								<File file={childFile} />
