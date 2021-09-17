@@ -20,7 +20,7 @@ const FilesAndFoldersDisplay: React.FC<Props> = props => {
 
 	return (
 		<div className="min-h-screen p-8 bg-base-200">
-			<div className="flex items-center justify-between pr-6">
+			<div className="flex items-center justify-between sm:pr-6">
 				<FolderBreadcrumbs currentFolder={folderState.folder} />
 
 				<div className="flex gap-2">
