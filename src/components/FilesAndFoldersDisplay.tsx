@@ -28,6 +28,9 @@ const FilesAndFoldersDisplay: React.FC<Props> = props => {
 					<AddFolderBtn currentFolder={folderState.folder} />
 				</div>
 			</div>
+			{folderState.childFolders.length === 0 && folderState.childFiles.length === 0 && <div className='grid px-8 py-16 my-8 border rounded-md place-items-center'>
+				<p className='italic font-light text-gray-400'>Create a Folder or Upload a File to get started</p>
+			</div>}
 			<div className="py-4">
 				{folderState.childFolders.length > 0 && (
 					<div className="flex flex-wrap gap-4">
