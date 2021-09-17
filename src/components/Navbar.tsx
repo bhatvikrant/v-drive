@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 // CONTEXT
 import { useAuth } from "@/contexts/AuthContext";
 
+
 const Navbar: React.FC = () => {
 	const router = useRouter();
 
@@ -101,7 +102,7 @@ const Navbar: React.FC = () => {
 								className="w-10 h-10 m-1 rounded-full cursor-pointer"
 								tabIndex={0}
 							>
-								<img src="https://i.pravatar.cc/500?img=32" />
+								<img src={`https://avatars.dicebear.com/api/human/${currentUser.displayName}.svg`} />
 							</div>
 						</div>
 						<ul className="text-black shadow menu dropdown-content bg-base-100 rounded-box w-52">
