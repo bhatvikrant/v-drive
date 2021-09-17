@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 
 // COMPONENTS
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // CONTEXTS
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<AuthProvider>
 			<Navbar />
 			<Component {...pageProps} />
+			<Footer />
 		</AuthProvider>
 	);
 }

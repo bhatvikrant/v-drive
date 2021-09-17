@@ -20,8 +20,8 @@ const Navbar: React.FC = () => {
 	};
 
 	return (
-		<div className="mb-2 shadow-lg navbar bg-neutral text-neutral-content">
-			<div className="flex-none hidden lg:flex">
+		<div className="sticky top-0 right-0 z-50 mb-2 shadow-lg navbar bg-neutral text-neutral-content">
+			<div className="flex flex-none">
 				<button className="btn btn-square btn-ghost">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
 				</button>
 			</div>
 			<div
-				className="flex-1 hidden px-2 mx-2 cursor-pointer lg:flex"
+				className="flex flex-1 px-2 mx-2 cursor-pointer"
 				onClick={() => {
 					if (currentUser) {
 						router.push("/dashboard");
